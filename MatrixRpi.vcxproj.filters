@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="main">
+      <UniqueIdentifier>{65f2c08a-9944-4da9-8d50-bf86bcd200fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{8206592b-854a-4044-8f22-220a046f6475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\matrix">
+      <UniqueIdentifier>{b5be249d-63ea-450f-8841-28160d55e7f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main\main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\audio_output.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\bus_direct.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\bus_kernel.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\cross_correlation.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\direction_of_arrival.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\dummy_sensor.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\everloop.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\gpio_control.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\humidity_sensor.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\imu_sensor.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\matrix_driver.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\matrixio_bus.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\mcu_firmware.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\microphone_array.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\microphone_core.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\pressure_sensor.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\uart_control.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\uv_sensor.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix\zwave_gpio.cpp">
+      <Filter>Library\matrix</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
