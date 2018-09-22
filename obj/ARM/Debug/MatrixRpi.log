@@ -1,9 +1,138 @@
-﻿  Validating architecture
+﻿  Cleaning remote project directory
+  Validating architecture
   Validating sources
   Copying sources remotely to '192.168.1.224'
   Starting remote build
   Compiling sources:
   main.cpp
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(71,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(154,14): warning : "/*" within comment [-Wcomment]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(94,49): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(95,43): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(194,45): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘google::int32 {aka int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(248,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(250,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(271,1): warning : control reaches end of non-void function [-Wreturn-type]
+  audio_output.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(90,51): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(106,26): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(108,37): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(113,29): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(131,53): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+  bus_direct.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\bus_direct.cpp(114,20): warning : conversion to ‘__u16 {aka short unsigned int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\bus_direct.cpp(116,22): warning : conversion to ‘__u8 {aka unsigned char}’ from ‘unsigned int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\bus_direct.cpp(129,18): warning : conversion to ‘short unsigned int:15’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\bus_direct.cpp(143,18): warning : conversion to ‘short unsigned int:15’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
+  bus_kernel.cpp
+  cross_correlation.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cross_correlation.cpp(104,21): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+  direction_of_arrival.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(62,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(91,31): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(97,31): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(100,43): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(103,37): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(109,37): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(114,20): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(115,26): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\direction_of_arrival.cpp(117,43): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+  dummy_sensor.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\dummy_sensor.cpp(28,38): warning : conversion to ‘float’ from ‘std::uniform_real_distribution<>::result_type {aka double}’ may alter its value [-Wfloat-conversion]
+  everloop.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\everloop.cpp(37,38): warning : conversion to ‘unsigned char’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\everloop.cpp(38,38): warning : conversion to ‘unsigned char’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\everloop.cpp(39,38): warning : conversion to ‘unsigned char’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\everloop.cpp(40,38): warning : conversion to ‘unsigned char’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+  gpio_control.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(32,40): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(34,47): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(40,34): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(45,38): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(51,30): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(63,32): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(73,23): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(82,31): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(91,40): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(99,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(109,34): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(121,26): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(161,24): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(171,28): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(181,32): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(200,40): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(200,44): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(203,48): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(209,48): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(226,32): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(245,40): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(245,44): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(249,41): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(250,61): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(250,41): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(251,50): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(254,50): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(254,48): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(260,48): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(293,40): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(293,44): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(294,45): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(294,57): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\gpio_control.cpp(300,48): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+  humidity_sensor.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\humidity_sensor.cpp(38,40): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+  imu_sensor.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\imu_sensor.cpp(36,36): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+  matrixio_bus.cpp
+  matrix_driver.cpp
+  mcu_firmware.cpp
+  microphone_array.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\cpp\driver\microphone_array_location.h(40,1): warning : conversion to ‘float’ alters ‘double’ constant value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(90,30): warning : conversion to ‘short int’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(114,37): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(124,57): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(124,27): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(162,51): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\microphone_array.cpp(163,47): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+  microphone_core.cpp
+  pressure_sensor.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\pressure_sensor.cpp(37,40): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+  uart_control.cpp
+  uv_sensor.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\uv_sensor.cpp(38,40): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+  zwave_gpio.cpp
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(38,24): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(48,27): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(57,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
   Linking objects
   MatrixRpi.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\bin\ARM\Debug\MatrixRpi.out

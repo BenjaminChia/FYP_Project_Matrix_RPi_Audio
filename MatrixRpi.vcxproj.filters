@@ -72,6 +72,9 @@
     <ClCompile Include="matrix\zwave_gpio.cpp">
       <Filter>Library\matrix</Filter>
     </ClCompile>
+    <ClCompile Include="SharedResources.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matrix\cpp\driver\audio_output.h">
