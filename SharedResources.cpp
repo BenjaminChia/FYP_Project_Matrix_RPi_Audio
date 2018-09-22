@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "../matrix/cpp/driver/direction_of_arrival.h"
 #include "../matrix/cpp/driver/everloop.h"
 #include "../matrix/cpp/driver/everloop_image.h"
@@ -18,4 +18,4 @@ namespace GoogleSpeech {
 	void *run(void *null);
 	void stop();
 	extern int channelToSend;
-}
+}*/

@@ -80,12 +80,10 @@ int main(int argc, char *agrv[]) {
 	int mic;
 
 	std::cout << "before r = false" << std::endl;
-	recording = false;
+	recording = true;
 	std::cout << "after r = false" << std::endl;
 	pthread_t Record;
 	pthread_create(&Record, NULL, DirectRecord, NULL);
-	pthread_join(Record, NULL);
-	std::cout << "after r = join" << std::endl;
 	while (recording) {
 		mics.Read(); /* Reading 8-mics buffer from de FPGA */
 
@@ -115,6 +113,8 @@ int main(int argc, char *agrv[]) {
 			everloop.Write(&image1d);
 		}
 	}
+	pthread_join(Record, NULL);
+	std::cout << "after r = join" << std::endl;
 	std::cout << "after DOA" << std::endl;
 
 	// Microhone Array Configuration
