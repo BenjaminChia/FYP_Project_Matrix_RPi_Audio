@@ -32,6 +32,39 @@
     <ClCompile Include="matrix\uv_sensor.cpp" />
     <ClCompile Include="matrix\zwave_gpio.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="matrix\cpp\driver\audio_output.h" />
+    <ClInclude Include="matrix\cpp\driver\bus.h" />
+    <ClInclude Include="matrix\cpp\driver\bus_direct.h" />
+    <ClInclude Include="matrix\cpp\driver\bus_kernel.h" />
+    <ClInclude Include="matrix\cpp\driver\circular_queue.h" />
+    <ClInclude Include="matrix\cpp\driver\creator_memory_map.h" />
+    <ClInclude Include="matrix\cpp\driver\cross_correlation.h" />
+    <ClInclude Include="matrix\cpp\driver\direction_of_arrival.h" />
+    <ClInclude Include="matrix\cpp\driver\dummy_data.h" />
+    <ClInclude Include="matrix\cpp\driver\dummy_sensor.h" />
+    <ClInclude Include="matrix\cpp\driver\everloop.h" />
+    <ClInclude Include="matrix\cpp\driver\everloop_image.h" />
+    <ClInclude Include="matrix\cpp\driver\fw_data.h" />
+    <ClInclude Include="matrix\cpp\driver\gpio_control.h" />
+    <ClInclude Include="matrix\cpp\driver\humidity_data.h" />
+    <ClInclude Include="matrix\cpp\driver\humidity_sensor.h" />
+    <ClInclude Include="matrix\cpp\driver\imu_data.h" />
+    <ClInclude Include="matrix\cpp\driver\imu_sensor.h" />
+    <ClInclude Include="matrix\cpp\driver\matrixio_bus.h" />
+    <ClInclude Include="matrix\cpp\driver\matrix_driver.h" />
+    <ClInclude Include="matrix\cpp\driver\mcu_firmware.h" />
+    <ClInclude Include="matrix\cpp\driver\microphone_array.h" />
+    <ClInclude Include="matrix\cpp\driver\microphone_array_location.h" />
+    <ClInclude Include="matrix\cpp\driver\microphone_core.h" />
+    <ClInclude Include="matrix\cpp\driver\microphone_core_fir.h" />
+    <ClInclude Include="matrix\cpp\driver\pressure_data.h" />
+    <ClInclude Include="matrix\cpp\driver\pressure_sensor.h" />
+    <ClInclude Include="matrix\cpp\driver\uart_control.h" />
+    <ClInclude Include="matrix\cpp\driver\uv_data.h" />
+    <ClInclude Include="matrix\cpp\driver\uv_sensor.h" />
+    <ClInclude Include="matrix\cpp\driver\zwave_gpio.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{f4a99e14-c757-4a44-aceb-40daa36d0006}</ProjectGuid>
     <Keyword>Linux</Keyword>
@@ -65,8 +98,10 @@
       <LibraryDependencies>wiringPi</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
-      <Command>gpio export 17 out</Command>
-      <Message>export pin 17 using the gpio utility so that we can execute the blink program without sudo</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">

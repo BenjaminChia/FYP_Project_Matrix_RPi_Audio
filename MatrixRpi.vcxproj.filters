@@ -73,4 +73,99 @@
       <Filter>Library\matrix</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="matrix\cpp\driver\audio_output.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\bus.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\bus_direct.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\bus_kernel.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\circular_queue.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\creator_memory_map.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\cross_correlation.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\direction_of_arrival.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\dummy_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\dummy_sensor.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\everloop.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\everloop_image.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\fw_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\gpio_control.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\humidity_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\humidity_sensor.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\imu_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\imu_sensor.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\matrix_driver.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\matrixio_bus.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\mcu_firmware.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\microphone_array.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\microphone_array_location.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\microphone_core.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\microphone_core_fir.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\pressure_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\pressure_sensor.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\uart_control.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\uv_data.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\uv_sensor.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix\cpp\driver\zwave_gpio.h">
+      <Filter>Library\matrix</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
