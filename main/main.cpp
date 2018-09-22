@@ -92,11 +92,11 @@ int main(int argc, char *agrv[]) {
 		azimutal_angle = doa.GetAzimutalAngle() * 180 / M_PI;
 		polar_angle = doa.GetPolarAngle() * 180 / M_PI;
 		mic = doa.GetNearestMicrophone();
-
+		/*
 		std::cout << "azimutal angle = " << azimutal_angle
 			<< ", polar angle = " << polar_angle << ", mic = " << mic
 			<< std::endl;
-
+		*/
 		for (hal::LedValue &led : image1d.leds) {
 			led.blue = 0;
 		}
