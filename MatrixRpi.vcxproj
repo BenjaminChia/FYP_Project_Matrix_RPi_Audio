@@ -31,9 +31,9 @@
     <ClCompile Include="matrix\uart_control.cpp" />
     <ClCompile Include="matrix\uv_sensor.cpp" />
     <ClCompile Include="matrix\zwave_gpio.cpp" />
-    <ClCompile Include="SharedResources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="main\sharedResources.h" />
     <ClInclude Include="matrix\cpp\driver\audio_output.h" />
     <ClInclude Include="matrix\cpp\driver\bus.h" />
     <ClInclude Include="matrix\cpp\driver\bus_direct.h" />

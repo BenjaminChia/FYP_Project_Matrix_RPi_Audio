@@ -22,14 +22,8 @@
 #include "../matrix/cpp/driver/matrixio_bus.h"
 #include "../matrix/cpp/driver/microphone_array.h"
 #include "../matrix/cpp/driver/microphone_core.h"
-/*
-#include "../matrix/direction_of_arrival.cpp"
-#include "../matrix/everloop.cpp"
-#include "../matrix/matrixio_bus.cpp"
-#include "../matrix/microphone_array.cpp"
-#include "../matrix/microphone_core.cpp"
-#include "../matrix/matrix_driver.cpp"
-*/
+
+//#include "../SharedResources.cpp"
 
 DEFINE_int32(sampling_frequency, 16000, "Sampling Frequency");
 DEFINE_int32(duration, 5, "Interrupt after N seconds");
@@ -41,11 +35,10 @@ namespace hal = matrix_hal;
 int led_offset[] = { 23, 27, 32, 1, 6, 10, 14, 19 };
 int lut[] = { 1, 2, 10, 200, 10, 2, 1 };
 
-int sampling_rate = FLAGS_sampling_frequency;
-int seconds_to_record = FLAGS_duration;
-bool recording;
 
-//void *DOA(void* null);
+//bool recording;
+
+/*void *DOA(void* null);
 void *DirectRecord(void* null);
 
 hal::MatrixIOBus bus;
@@ -54,18 +47,65 @@ hal::EverloopImage image1d(bus.MatrixLeds());
 hal::MicrophoneArray mics;
 hal::MicrophoneCore mic_core(mics);
 hal::DirectionOfArrival doa(mics);
-
+*/
 int main(int argc, char *agrv[]) {
 	google::ParseCommandLineFlags(&argc, &agrv, true);
 	
+	//initialization of bus
+	hal::MatrixIOBus bus;
 	if (!bus.Init()) return false;
 	if (!bus.IsDirectBus()) {
 		std::cerr << "Kernel Modules has been loaded. Use ALSA implementation "
 			<< std::endl;
 		return false;
 	}
+	//set sampling rate and sec to record
+	int sampling_rate = FLAGS_sampling_frequency;
+	int seconds_to_record = FLAGS_duration;
 
-	//testing my DOA
+	// Microhone Array Configuration
+	hal::MicrophoneArray mics;
+	mics.Setup(&bus);
+	mics.SetSamplingRate(sampling_rate);
+	if (FLAGS_gain > 0) mics.SetGain(FLAGS_gain);
+
+	mics.ShowConfiguration();
+	std::cout << "Duration : " << seconds_to_record << "s" << std::endl;
+
+	// Mic Core setup
+	hal::MicrophoneCore mic_core(mics);
+	mic_core.Setup(&bus);
+
+	//Everloop
+	hal::Everloop everloop;
+	everloop.Setup(&bus);
+
+	//Everloop Image
+	hal::EverloopImage image1d(bus.MatrixLeds());
+
+	//buffer setup
+	int16_t buffer[mics.Channels() + 1]
+		[mics.SamplingRate() + mics.NumberOfSamples()];
+
+	//DOA setup
+	hal::DirectionOfArrival doa(mics);
+	doa.Init();
+	int mic;
+
+	
+	mics.CalculateDelays(0, 0, 1000, 320 * 1000);
+
+	std::ofstream os[mics.Channels() + 1];
+
+	for (uint16_t c = 0; c < mics.Channels() + 1; c++) {
+		std::string filename = "mic_" + std::to_string(mics.SamplingRate()) +
+			"_s16le_channel_" + std::to_string(c) + ".raw";
+		os[c].open(filename, std::ofstream::binary);
+	}
+	
+	
+
+	/*testing my DOA
 	std::cout << "after bus" << std::endl;
 	int sampling_rate = FLAGS_sampling_frequency;
 	everloop.Setup(&bus);
@@ -85,38 +125,71 @@ int main(int argc, char *agrv[]) {
 	pthread_t Record;
 	pthread_create(&Record, NULL, DirectRecord, NULL);
 	while (recording) {
-		mics.Read(); /* Reading 8-mics buffer from de FPGA */
-
+		mics.Read(); 	*//* Reading 8-mics buffer from de FPGA */
+	/*
 		doa.Calculate();
 
 		azimutal_angle = doa.GetAzimutalAngle() * 180 / M_PI;
 		polar_angle = doa.GetPolarAngle() * 180 / M_PI;
-		mic = doa.GetNearestMicrophone();
-		/*
+		mic = doa.GetNearestMicrophone();*/
+	/*
 		std::cout << "azimutal angle = " << azimutal_angle
 			<< ", polar angle = " << polar_angle << ", mic = " << mic
 			<< std::endl;
 		*/
-		for (hal::LedValue &led : image1d.leds) {
-			led.blue = 0;
-		}
+	
+	//DOA lights
+	uint32_t samples = 0;
+	//record + DOA
+	for (int s = 0; s < seconds_to_record; s++) {
+		for (;;) {
+			mics.Read(); /* Reading 8-mics buffer from de FPGA */
 
-		for (int i = led_offset[mic] - 3, j = 0; i < led_offset[mic] + 3;
-			++i, ++j) {
-			if (i < 0) {
-				image1d.leds[image1d.leds.size() + i].blue = lut[j];
-			}
-			else {
-				image1d.leds[i % image1d.leds.size()].blue = lut[j];
+			//DOA part
+			doa.Calculate();
+			mic = doa.GetNearestMicrophone();
+			for (hal::LedValue &led : image1d.leds) {
+				led.blue = 0;
 			}
 
-			everloop.Write(&image1d);
+			for (int i = led_offset[mic] - 3, j = 0; i < led_offset[mic] + 3; ++i, ++j) {
+				if (i < 0) {
+					image1d.leds[image1d.leds.size() + i].blue = lut[j];
+				}
+				else {
+					image1d.leds[i % image1d.leds.size()].blue = lut[j];
+				}
+
+				everloop.Write(&image1d);
+			}//DOA part end
+
+			//Recorder starts
+			for (uint32_t s = 0; s < mics.NumberOfSamples(); s++) {
+				for (uint16_t c = 0; c < mics.Channels(); c++) { /* mics.Channels()=8 */
+					buffer[c][samples] = mics.At(s, c);
+				}
+				buffer[mics.Channels()][samples] = mics.Beam(s);
+				samples++;
+			}
+			/* write to file */
+			if (samples >= mics.SamplingRate()) {
+				for (uint16_t c = 0; c < mics.Channels() + 1; c++) {
+					os[c].write((const char *)buffer[c], samples * sizeof(int16_t));
+				}
+				samples = 0;
+				break;
+			}
 		}
 	}
+	return 0;
+}
+
+			
+	/*
 	pthread_join(Record, NULL);
 	std::cout << "after r = join" << std::endl;
 	std::cout << "after DOA" << std::endl;
-
+	*/
 	// Microhone Array Configuration
 	//recording = false;
 	//pthread_t Record, testDOA;
@@ -125,8 +198,8 @@ int main(int argc, char *agrv[]) {
 	//pthread_join(Record, NULL);
 	//pthread_join(testDOA, NULL);
 
-	return 0;
-}
+	
+
 
 /*void *DOA(void* null) {
 
@@ -184,6 +257,7 @@ for (int i = led_offset[mic] - 3, j = 0; i < led_offset[mic] + 3;
 }*/
 
 
+/*
 void *DirectRecord(void* null) {
 	recording = true;
 	//hal::MatrixIOBus bus;
@@ -210,7 +284,7 @@ void *DirectRecord(void* null) {
 	for (uint16_t c = 0; c < mics.Channels() + 1; c++) {
 		std::string filename = std::to_string(c) + ".raw";
 		os[c].open(filename, std::ofstream::binary);
-	}
+	}*/
 
 	/*
 	std::thread et(
@@ -235,37 +309,9 @@ void *DirectRecord(void* null) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
 	}
 	},
-	&bus);*/
+	&bus);
 
 	uint32_t samples = 0;
 	for (int s = 0; s < seconds_to_record; s++) {
 		for (;;) {
-			mics.Read(); /* Reading 8-mics buffer from de FPGA */
-
-						 /* buffering */
-			for (uint32_t s = 0; s < mics.NumberOfSamples(); s++) {
-				for (uint16_t c = 0; c < mics.Channels(); c++) { /* mics.Channels()=8 */
-					buffer[c][samples] = mics.At(s, c);
-				}
-				buffer[mics.Channels()][samples] = mics.Beam(s);
-				samples++;
-			}
-
-			/* write to file */
-			if (samples >= mics.SamplingRate()) {
-				for (uint16_t c = 0; c < mics.Channels() + 1; c++) {
-					os[c].write((const char *)buffer[c], samples * sizeof(int16_t));
-				}
-				samples = 0;
-
-				break;
-			}
-		}
-		recording = false;
-
-		pthread_exit(NULL);
-	}
-
-	//et.join();
-
-}
+			mics.Read(); *//* Reading 8-mics buffer from de FPGA */

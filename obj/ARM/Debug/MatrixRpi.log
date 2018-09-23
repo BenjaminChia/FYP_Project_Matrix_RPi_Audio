@@ -5,13 +5,10 @@
   Starting remote build
   Compiling sources:
   main.cpp
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(154,14): warning : "/*" within comment [-Wcomment]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(92,49): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(93,43): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(194,45): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘google::int32 {aka int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(248,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(250,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(271,1): warning : control reaches end of non-void function [-Wreturn-type]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(227,14): warning : "/*" within comment [-Wcomment]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(70,45): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘google::int32 {aka int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(169,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(171,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
   audio_output.cpp
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(90,51): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\audio_output.cpp(106,26): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
@@ -134,6 +131,5 @@ C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(38,24): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(48,27): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\matrix\zwave_gpio.cpp(57,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-  SharedResources.cpp
   Linking objects
-  MatrixRpi.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\bin\ARM\Debug\MatrixRpi.out
+  MatrixRpi.vcxproj -> C:\Users\User\documents\visual studio 2015\Projects\BenProject\MatrixRpi\bin\ARM\Debug\MatrixRpi.out
