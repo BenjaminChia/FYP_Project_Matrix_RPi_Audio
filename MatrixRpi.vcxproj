@@ -93,10 +93,11 @@
     <LibraryPath>$(LibraryPath);$(MSBuildProjectDirectory)\matrix;</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
     <RemoteLdToolExe>g++ -lgflags -lfftw3f -lpthread</RemoteLdToolExe>
+    <RemoteProjectDir>$(RemoteRootDir)/TestingUDP/</RemoteProjectDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
-      <LibraryDependencies>wiringPi</LibraryDependencies>
+      <LibraryDependencies>wiringPi;socket++;rt;pthread</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
       <Command>
@@ -116,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\include;$(MSBuildProjectDirectory)\matrix;$(StlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)$(MSBuildProjectDirectory)\matrix;$(StlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
