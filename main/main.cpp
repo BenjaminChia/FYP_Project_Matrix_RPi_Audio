@@ -27,7 +27,7 @@
 
 DEFINE_int32(sampling_frequency, 16000, "Sampling Frequency");
 DEFINE_int32(duration, 10, "Interrupt after N seconds");
-DEFINE_int32(gain, 3, "Microphone Gain");
+DEFINE_int32(gain, 5, "Microphone Gain");
 DEFINE_bool(big_menu, true, "Include 'advanced' options in the menu listing");
 
 namespace hal = matrix_hal;
@@ -93,8 +93,6 @@ int main(int argc, char *agrv[]) {
 	for (int s = 0; s < seconds_to_record; s++) {
 		for (;;) {
 			mics.Read(); /* Reading 8-mics buffer from de FPGA */
-
-			
 
 			//Recorder starts
 			for (uint32_t s = 0; s < mics.NumberOfSamples(); s++) {
