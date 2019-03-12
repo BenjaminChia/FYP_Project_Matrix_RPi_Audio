@@ -15,6 +15,7 @@
 #include <string>
 #include <valarray>
 #include <thread>
+#include "sys/socket.h"
 
 
 #include <libsocket/inetserverstream.hpp>
@@ -57,17 +58,18 @@ pthread_mutex_t bufferMutex[2] = { PTHREAD_MUTEX_INITIALIZER };
 
 DEFINE_int32(sampling_frequency, 16000, "Sampling Frequency");
 DEFINE_int32(duration, 10, "Interrupt after N seconds");
-DEFINE_int32(gain, 5, "Microphone Gain");
+DEFINE_int32(gain, 3, "Microphone Gain");
 DEFINE_bool(big_menu, true, "Include 'advanced' options in the menu listing");
 using namespace std;
-//namespace hal = matrix_hal;
+namespace hal = matrix_hal;
 
 
 int led_offset[] = { 23, 27, 32, 1, 6, 10, 14, 19 };
 int lut[] = { 1, 2, 10, 200, 10, 2, 1 };
-char sysInfo[COMMAND_LENGTH + HOST_NAME_LENGTH];
-std::unique_ptr<libsocket::inet_stream> tcpConnection;
 
+std::unique_ptr<libsocket::inet_stream> tcpConnection;
+hal::MicrophoneArray mics;
+hal::MatrixIOBus bus;
 
 int main(int argc, char *agrv[]) {
 
@@ -75,42 +77,8 @@ int main(int argc, char *agrv[]) {
 	*status = 'I';
 	google::ParseCommandLineFlags(&argc, &agrv, true);
 
-	//initialization of bus
-	hal::MatrixIOBus bus;
-	if (!bus.Init()) return false;
-	if (!bus.IsDirectBus()) return false;
-	//set sampling rate and sec to record
-	int sampling_rate = FLAGS_sampling_frequency;
-	int seconds_to_record = FLAGS_duration;
-
-	// Microhone Array Configuration
-	hal::MicrophoneArray mics;
-	mics.Setup(&bus);
-	mics.SetSamplingRate(sampling_rate);
-	if (FLAGS_gain > 0) mics.SetGain(FLAGS_gain);
-
-	mics.ShowConfiguration();
-	std::cout << "Duration : " << seconds_to_record << "s" << std::endl;
-
-	// Mic Core setup
-	hal::MicrophoneCore mic_core(mics);
-	mic_core.Setup(&bus);
-
-	//Everloop
-	hal::Everloop everloop;
-	everloop.Setup(&bus);
-
-	//Everloop Image
-	hal::EverloopImage image1d(bus.MatrixLeds());
-
-	//buffer setup
-	int16_t buffer[mics.Channels() + 1]
-		[mics.SamplingRate() + mics.NumberOfSamples()];
-
-	//DOA setup
-	hal::DirectionOfArrival doa(mics);
-	doa.Init();
 	char command = '\0';
+
 
 	pthread_t udpThread;
 	pthread_create(&udpThread, NULL, udpBroadcastReceiver, NULL);
@@ -136,14 +104,7 @@ int main(int argc, char *agrv[]) {
 
 			while (tcpConnection->rcv(&command, 1, MSG_WAITALL)) {
 				switch (command) {
-				case 'N': {//record to network
-					if (*status == 'I') {
-						*status = 'N';
-						tcpConnection->rcv(&commandArgument, 1, MSG_WAITALL);
-						pthread_create(&recorderThread, NULL, recorder, NULL);
-						break;
-					}
-				}
+			
 				case 'L': {//record to disk
 					if (*status == 'I') {
 						*status = 'L';
@@ -154,14 +115,6 @@ int main(int argc, char *agrv[]) {
 					break;
 				}
 
-				case 'S': {//google speech
-					if (*status == 'I') {
-						*status = 'S';
-						pthread_create(&recorderThread, NULL, GoogleSpeech::run, NULL);
-					}
-
-					break;
-				}
 
 				case 'I': { //stop everything
 
@@ -172,30 +125,15 @@ int main(int argc, char *agrv[]) {
 						pthread_join(recorderThread, NULL);
 						break;
 					}
-					case 'N': {
-						recording = false;
-						pthread_join(recorderThread, NULL);
-						break;
-					}
-					case 'S': {
-						GoogleSpeech::stop();
-						pthread_join(recorderThread, NULL);
-						break;
-					}
 					}
 
 					*status = 'I';
 					break;
 				}
 
-				case 'T': {
-					LedCon->turnOffLed(); system("sudo shutdown now");
-					break;
-				}
 				default: cout << "unrecognized command" << endl;
 				}
 				command = '\0';
-				LedCon->turnOffLed();
 			}
 		}
 
@@ -207,12 +145,10 @@ int main(int argc, char *agrv[]) {
 		pcConnected = false;
 		cout << "Remote PC at " << tcpConnection->gethost() << ":" << tcpConnection->getport() << " disconnected" << endl;
 		tcpConnection->destroy();
-		LedCon->turnOffLed();
 	}
 
-	LedCon->updateLed();
 	sleep(1);
-	LedCon->turnOffLed();
+
 
 	return 0;
 }
@@ -242,11 +178,7 @@ void *udpBroadcastReceiver(void *null) {
 		}
 		catch (const libsocket::socket_exception& exc)
 		{
-			//error
-			for (matrixCreator::LedValue& led : LedCon->Image.leds) {
-				led.red = 8; led.green = 0; led.blue = 0;
-			}
-			LedCon->updateLed();
+		
 
 			cout << exc.mesg << endl;
 		}
@@ -263,10 +195,10 @@ void *recorder(void* null) {
 
 	pthread_t workerThread;
 	switch (*status) {
-	case 'N':pthread_create(&workerThread, NULL, record2Remote, NULL); break;
+
 	case 'L':pthread_create(&workerThread, NULL, record2Disk, NULL); break;
 	}
-
+	/*
 	if (pcConnected) {
 		int32_t samplesToWait;
 
@@ -278,10 +210,10 @@ void *recorder(void* null) {
 		}
 		//one more read to go
 		writeInitDiscard = samplesToWait;
-	}
+	}*/
 	cout << "------ Recording starting ------" << endl;
-	microphoneArray.SetGain(3);
-	microphoneArray.Read();
+	mics.SetGain(3);
+	mics.Read();
 	while (recording) {
 		int32_t step = 0;
 		bool bufferFull = false;
@@ -289,7 +221,7 @@ void *recorder(void* null) {
 		//fill the first partial buffer
 		for (int32_t s = writeInitDiscard; s < 128; s++) {
 			for (int32_t c = 0; c < STREAMING_CHANNELS; c++) {
-				buffer[buffer_switch][step][c] = microphoneArray.At(s, c);
+				buffer[buffer_switch][step][c] = mics.At(s, c);
 			}
 			step++;
 		}
@@ -297,11 +229,11 @@ void *recorder(void* null) {
 		while (!bufferFull) {
 			int32_t s = 0;
 
-			microphoneArray.Read(); //The reading process is a blocking process that read in 8*128 samples every 8ms
+			mics.Read(); //The reading process is a blocking process that read in 8*128 samples every 8ms
 
 			for (s = 0; s < 128; s++) {
 				for (int32_t c = 0; c < STREAMING_CHANNELS; c++) {
-					buffer[buffer_switch][step][c] = microphoneArray.At(s, c);
+					buffer[buffer_switch][step][c] = mics.At(s, c);
 				}
 				step++;
 				if (step == BUFFER_SAMPLES_PER_CHANNEL) {
@@ -321,10 +253,42 @@ void *recorder(void* null) {
 	pthread_exit(NULL);
 }
 void *record2Disk(void* null) {
-	
 
-	
-	
+	//initialization of bus
+	//if (!bus.Init()) return false;
+	//if (!bus.IsDirectBus()) return false;
+	//set sampling rate and sec to record
+	int sampling_rate = FLAGS_sampling_frequency;
+	int seconds_to_record = FLAGS_duration;
+
+	// Microhone Array Configuration
+
+	mics.Setup(&bus);
+	mics.SetSamplingRate(sampling_rate);
+	if (FLAGS_gain > 0) mics.SetGain(FLAGS_gain);
+
+	mics.ShowConfiguration();
+	std::cout << "Duration : " << seconds_to_record << "s" << std::endl;
+
+	// Mic Core setup
+	hal::MicrophoneCore mic_core(mics);
+	mic_core.Setup(&bus);
+
+	//Everloop
+	hal::Everloop everloop;
+	everloop.Setup(&bus);
+
+	//Everloop Image
+	hal::EverloopImage image1d(bus.MatrixLeds());
+
+	//buffer setup
+	int16_t buffer[mics.Channels() + 1]
+		[mics.SamplingRate() + mics.NumberOfSamples()];
+
+	//DOA setup
+	hal::DirectionOfArrival doa(mics);
+	doa.Init();
+	char command = '\0';
 	int mic;
 
 	mics.CalculateDelays(0, 0, 1000, 320 * 1000);
@@ -333,52 +297,13 @@ void *record2Disk(void* null) {
 	uint32_t bufferSwitch = 0;
 	char dateAndTime[16];
 	struct tm tm;
-	
-	time_t t = time(NULL);
-	tm = *localtime(&t);
-	gethostname(hostname, HOST_NAME_LENGTH);
-	sprintf(dateAndTime, "%d%02d%02d_%02d%02d%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-		tm.tm_hour, tm.tm_min, tm.tm_sec);
-	ostringstream filenameStream;
-	filenameStream << "/home/pi/Recordings/" << hostname << "_" << dateAndTime << "_8ch.wav";
-	string filename = filenameStream.str();
-	cout << filename << endl;
-
-	ofstream file(filename, std::ofstream::binary);
-	struct WaveHeader {
-		//RIFF chunk
-		char RIFF[4] = { 'R', 'I', 'F', 'F' };
-		uint32_t overallSize;						// overall size of file in bytes
-		char WAVE[4] = { 'W', 'A', 'V', 'E' };		// WAVE string
-
-													//fmt subchunk
-		char fmt[4] = { 'f', 'm', 't', ' ' };		// fmt string with trailing null char
-		uint32_t fmtLength = 16;					// length of the format data
-		uint16_t audioFormat = 1;					// format type. 1-PCM, 3- IEEE float, 6 - 8bit A law, 7 - 8bit mu law
-		uint16_t numChannels = 8;					// no.of channels
-		uint32_t samplingRate = 16000;				// sampling rate (blocks per second)
-		uint32_t byteRate = 256000;					// SampleRate * NumChannels * BitsPerSample/8
-		uint16_t blockAlign = 16;					// NumChannels * BitsPerSample/8
-		uint16_t bitsPerSample = 16;				// bits per sample, 8- 8bits, 16- 16 bits etc
-
-													//data subchunk
-		char data[4] = { 'd', 'a', 't', 'a' };		// DATA string or FLLR string
-		uint32_t dataSize;							// NumSamples * NumChannels * BitsPerSample/8 - size of the next chunk that will be read
-	} header;
-
-	
-	header.dataSize = bufferByteSize ;
-	header.overallSize = header.dataSize + 36;
-	file.seekp(0);
-	file.write((const char*)&header, sizeof(WaveHeader));
-	file.close();
 
 	for (uint16_t c = 8; c < mics.Channels() + 1; c++) {
 		string filename = "mic_" + std::to_string(mics.SamplingRate()) +
 			"_s16le_channel_" + std::to_string(c) + ".raw";
 		os[c].open(filename, ofstream::binary);
 	}
-	
+
 
 	//DOA lights
 	uint32_t samples = 0;
@@ -389,53 +314,100 @@ void *record2Disk(void* null) {
 	}
 	catch (const std::exception&)
 	{
-			
+
 	}
-	for (int s = 0; s < seconds_to_record; s++) {
-		for (;;) {
-			mics.Read(); /* Reading 8-mics buffer from de FPGA */
+	do {
+		mics.Read(); /* Reading 8-mics buffer from de FPGA */
 
-			//Recorder starts
-			for (uint32_t s = 0; s < mics.NumberOfSamples(); s++) {
-				for (uint16_t c = 0; c < mics.Channels(); c++) { /* mics.Channels()=8 */
-					buffer[c][samples] = mics.At(s, c);
-				}
-				buffer[mics.Channels()][samples] = mics.Beam(s);
-				samples++;
-			}//recording ends
-			//file.write((const char*)buffer[bufferSwitch], bufferByteSize);
-			//DOA part
-			doa.Calculate();
-			mic = doa.GetNearestMicrophone();
-			for (hal::LedValue &led : image1d.leds) {
-				led.blue = 0;
+		//Recorder starts
+		for (uint32_t s = 0; s < mics.NumberOfSamples(); s++) {
+			for (uint16_t c = 0; c < mics.Channels(); c++) { /* mics.Channels()=8 */
+				buffer[c][samples] = mics.At(s, c);
 			}
+			buffer[mics.Channels()][samples] = mics.Beam(s);
+			samples++;
+		}//recording ends
+		uint32_t counter = 0;
+		time_t t = time(NULL);
+		tm = *localtime(&t);
+		gethostname(hostname, HOST_NAME_LENGTH);
+		sprintf(dateAndTime, "%d%02d%02d_%02d%02d%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+			tm.tm_hour, tm.tm_min, tm.tm_sec);
+		ostringstream filenameStream;
+		filenameStream << "/home/pi/Recordings/" << hostname << "_" << dateAndTime << "_8ch.wav";
+		string filename = filenameStream.str();
+		cout << filename << endl;
 
-			for (int i = led_offset[mic] - 3, j = 0; i < led_offset[mic] + 3; ++i, ++j) {
-				if (i < 0) {
-					image1d.leds[image1d.leds.size() + i].blue = lut[j];
-				}
-				else {
-					image1d.leds[i % image1d.leds.size()].blue = lut[j];
-				}
+		ofstream file(filename, std::ofstream::binary);
+		struct WaveHeader {
+			//RIFF chunk
+			char RIFF[4] = { 'R', 'I', 'F', 'F' };
+			uint32_t overallSize;						// overall size of file in bytes
+			char WAVE[4] = { 'W', 'A', 'V', 'E' };		// WAVE string
 
-				everloop.Write(&image1d);
-			}//DOA part end
+														//fmt subchunk
+			char fmt[4] = { 'f', 'm', 't', ' ' };		// fmt string with trailing null char
+			uint32_t fmtLength = 16;					// length of the format data
+			uint16_t audioFormat = 1;					// format type. 1-PCM, 3- IEEE float, 6 - 8bit A law, 7 - 8bit mu law
+			uint16_t numChannels = 8;					// no.of channels
+			uint32_t samplingRate = 16000;				// sampling rate (blocks per second)
+			uint32_t byteRate = 256000;					// SampleRate * NumChannels * BitsPerSample/8
+			uint16_t blockAlign = 16;					// NumChannels * BitsPerSample/8
+			uint16_t bitsPerSample = 16;				// bits per sample, 8- 8bits, 16- 16 bits etc
 
-			//write to file
-			if (samples >= mics.SamplingRate()) {
-				for (uint16_t c = 8; c < mics.Channels() + 1; c++) {
-					os[c].write((const char *)buffer[c], samples * sizeof(int16_t));
-				}
-				samples = 0;
-				break;
-			}
+														//data subchunk
+			char data[4] = { 'd', 'a', 't', 'a' };		// DATA string or FLLR string
+			uint32_t dataSize;							// NumSamples * NumChannels * BitsPerSample/8 - size of the next chunk that will be read
+		} header;
+
+		file.write((const char*)&header, sizeof(WaveHeader));
+		while (recording && counter < 8191) {
+			pthread_mutex_lock(&bufferMutex[bufferSwitch]);
+
+			file.write((const char*)buffer[bufferSwitch], bufferByteSize);
+
+			pthread_mutex_unlock(&bufferMutex[bufferSwitch]);
+			bufferSwitch = (bufferSwitch + 1) % 2;
 		}
-	}
-	/*
-	*/
-	return 0;
+		header.dataSize = bufferByteSize * counter;
+		header.overallSize = header.dataSize + 36;
+		file.seekp(0);
+		file.write((const char*)&header, sizeof(WaveHeader));
+		file.close();
+		//file.write((const char*)buffer[bufferSwitch], bufferByteSize);
+		//DOA part
+		doa.Calculate();
+		mic = doa.GetNearestMicrophone();
+		for (hal::LedValue &led : image1d.leds) {
+			led.blue = 0;
+		}
+
+		for (int i = led_offset[mic] - 3, j = 0; i < led_offset[mic] + 3; ++i, ++j) {
+			if (i < 0) {
+				image1d.leds[image1d.leds.size() + i].blue = lut[j];
+			}
+			else {
+				image1d.leds[i % image1d.leds.size()].blue = lut[j];
+			}
+
+			everloop.Write(&image1d);
+		}//DOA part end
+
+		//write to file
+		if (samples >= mics.SamplingRate()) {
+			for (uint16_t c = 8; c < mics.Channels() + 1; c++) {
+				os[c].write((const char *)buffer[c], samples * sizeof(int16_t));
+			}
+			samples = 0;
+			break;
+		}
+	} while (recording);
+
+	pthread_exit(NULL);
 }
+
+	
+
 
 			
 	
