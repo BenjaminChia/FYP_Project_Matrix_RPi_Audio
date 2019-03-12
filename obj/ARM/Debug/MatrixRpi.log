@@ -5,10 +5,8 @@
   Compiling sources:
   main.cpp
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(63,45): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘google::int32 {aka int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(155,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(157,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(159,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(161,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
 C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(91,11): warning : unused variable ‘bufferSwitch’ [-Wunused-variable]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(92,7): warning : unused variable ‘dateAndTime’ [-Wunused-variable]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(93,12): warning : unused variable ‘tm’ [-Wunused-variable]
   Linking objects
   MatrixRpi.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\bin\ARM\Debug\MatrixRpi.out

@@ -16,6 +16,12 @@
 #include <valarray>
 #include <thread>
 
+
+#include <libsocket/inetserverstream.hpp>
+#include <libsocket/inetserverdgram.hpp>
+#include <libsocket/inetclientdgram.hpp>
+#include <libsocket/exception.hpp>
+
 #include "../matrix/cpp/driver/direction_of_arrival.h"
 #include "../matrix/cpp/driver/everloop.h"
 #include "../matrix/cpp/driver/everloop_image.h"
@@ -23,6 +29,7 @@
 #include "../matrix/cpp/driver/microphone_array.h"
 #include "../matrix/cpp/driver/microphone_core.h"
 
+#include "sharedResources.h"
 //#include "../SharedResources.cpp"
 #define BUFFER_SAMPLES_PER_CHANNEL	16000 //1 second of recording
 #define STREAMING_CHANNELS			8 //Maxmium 8 channels
@@ -31,28 +38,48 @@ const int32_t bufferByteSize = STREAMING_CHANNELS * BUFFER_SAMPLES_PER_CHANNEL *
 #define HOST_NAME_LENGTH			20 //maximum number of characters for host name
 #define COMMAND_LENGTH				1
 
+void *record2Disk(void* null);
+void * recorder(void * null);
+void *udpBroadcastReceiver(void *null);
+
+bool pcConnected = false;
+bool recording = false;
+
+char sysInfo[COMMAND_LENGTH + HOST_NAME_LENGTH];
+char commandArgument;
+char* status = &sysInfo[0];
+char* hostname = &sysInfo[1];
+
+int16_t buffer[2][BUFFER_SAMPLES_PER_CHANNEL][STREAMING_CHANNELS];
+
+pthread_mutex_t bufferMutex[2] = { PTHREAD_MUTEX_INITIALIZER };
+
+
 DEFINE_int32(sampling_frequency, 16000, "Sampling Frequency");
 DEFINE_int32(duration, 10, "Interrupt after N seconds");
 DEFINE_int32(gain, 5, "Microphone Gain");
 DEFINE_bool(big_menu, true, "Include 'advanced' options in the menu listing");
 using namespace std;
-namespace hal = matrix_hal;
+//namespace hal = matrix_hal;
+
 
 int led_offset[] = { 23, 27, 32, 1, 6, 10, 14, 19 };
 int lut[] = { 1, 2, 10, 200, 10, 2, 1 };
 char sysInfo[COMMAND_LENGTH + HOST_NAME_LENGTH];
+std::unique_ptr<libsocket::inet_stream> tcpConnection;
 
-char* hostname = &sysInfo[1];
 
 int main(int argc, char *agrv[]) {
+
+	gethostname(hostname, HOST_NAME_LENGTH);
+	*status = 'I';
 	google::ParseCommandLineFlags(&argc, &agrv, true);
-	
+
 	//initialization of bus
 	hal::MatrixIOBus bus;
 	if (!bus.Init()) return false;
 	if (!bus.IsDirectBus()) return false;
 	//set sampling rate and sec to record
-	
 	int sampling_rate = FLAGS_sampling_frequency;
 	int seconds_to_record = FLAGS_duration;
 
@@ -83,6 +110,221 @@ int main(int argc, char *agrv[]) {
 	//DOA setup
 	hal::DirectionOfArrival doa(mics);
 	doa.Init();
+	char command = '\0';
+
+	pthread_t udpThread;
+	pthread_create(&udpThread, NULL, udpBroadcastReceiver, NULL);
+
+	//stand by
+	libsocket::inet_stream_server tcpServer("0.0.0.0", "8000", LIBSOCKET_IPv4);
+	cout << hostname << " - TCP server listening :8000\n";
+
+	//wait for network connection
+	while (true) {
+		try {
+
+			tcpConnection = tcpServer.accept2();
+
+			//connected
+		
+			pcConnected = true;
+
+			tcpConnection->snd(sysInfo, COMMAND_LENGTH + HOST_NAME_LENGTH);
+			//syncTime();
+
+			pthread_t recorderThread;
+
+			while (tcpConnection->rcv(&command, 1, MSG_WAITALL)) {
+				switch (command) {
+				case 'N': {//record to network
+					if (*status == 'I') {
+						*status = 'N';
+						tcpConnection->rcv(&commandArgument, 1, MSG_WAITALL);
+						pthread_create(&recorderThread, NULL, recorder, NULL);
+						break;
+					}
+				}
+				case 'L': {//record to disk
+					if (*status == 'I') {
+						*status = 'L';
+						tcpConnection->rcv(&commandArgument, 1, MSG_WAITALL);
+						pthread_create(&recorderThread, NULL, recorder, NULL);
+					}
+
+					break;
+				}
+
+				case 'S': {//google speech
+					if (*status == 'I') {
+						*status = 'S';
+						pthread_create(&recorderThread, NULL, GoogleSpeech::run, NULL);
+					}
+
+					break;
+				}
+
+				case 'I': { //stop everything
+
+					switch (*status) {
+					case 'I': break;
+					case 'L': {
+						recording = false;
+						pthread_join(recorderThread, NULL);
+						break;
+					}
+					case 'N': {
+						recording = false;
+						pthread_join(recorderThread, NULL);
+						break;
+					}
+					case 'S': {
+						GoogleSpeech::stop();
+						pthread_join(recorderThread, NULL);
+						break;
+					}
+					}
+
+					*status = 'I';
+					break;
+				}
+
+				case 'T': {
+					LedCon->turnOffLed(); system("sudo shutdown now");
+					break;
+				}
+				default: cout << "unrecognized command" << endl;
+				}
+				command = '\0';
+				LedCon->turnOffLed();
+			}
+		}
+
+		catch (const libsocket::socket_exception& exc)
+		{
+			//error
+			cout << exc.mesg << endl;
+		}
+		pcConnected = false;
+		cout << "Remote PC at " << tcpConnection->gethost() << ":" << tcpConnection->getport() << " disconnected" << endl;
+		tcpConnection->destroy();
+		LedCon->turnOffLed();
+	}
+
+	LedCon->updateLed();
+	sleep(1);
+	LedCon->turnOffLed();
+
+	return 0;
+}
+
+void *udpBroadcastReceiver(void *null) {
+	string remoteIP;
+	string remotePort;
+	string buffer;
+
+	remoteIP.resize(16);
+	remotePort.resize(16);
+	buffer.resize(32);
+
+	//start server
+	libsocket::inet_dgram_server udpServer("0.0.0.0", "8001", LIBSOCKET_IPv4);
+	cout << hostname << " - UDP server listening :8001\n";
+
+	while (true) {
+		try {
+			udpServer.rcvfrom(buffer, remoteIP, remotePort);
+
+			if (!pcConnected && buffer.compare("live long and prosper") == 0) {
+				cout << "Remote PC at " << remoteIP << endl;
+				udpServer.sndto("peace and long life", remoteIP, remotePort);
+			}
+
+		}
+		catch (const libsocket::socket_exception& exc)
+		{
+			//error
+			for (matrixCreator::LedValue& led : LedCon->Image.leds) {
+				led.red = 8; led.green = 0; led.blue = 0;
+			}
+			LedCon->updateLed();
+
+			cout << exc.mesg << endl;
+		}
+	}
+
+}
+void *recorder(void* null) {
+	int32_t buffer_switch = 0;
+	int32_t writeInitDiscard = 0;
+
+	recording = true;
+	//lock down buffer 0 before spawning streaming thread
+	pthread_mutex_lock(&bufferMutex[buffer_switch]);
+
+	pthread_t workerThread;
+	switch (*status) {
+	case 'N':pthread_create(&workerThread, NULL, record2Remote, NULL); break;
+	case 'L':pthread_create(&workerThread, NULL, record2Disk, NULL); break;
+	}
+
+	if (pcConnected) {
+		int32_t samplesToWait;
+
+		microphoneArray.Read();
+		samplesToWait = syncRecording(commandArgument)*0.016 - 128;
+		while (samplesToWait > 128) {
+			microphoneArray.Read();
+			samplesToWait -= 128;
+		}
+		//one more read to go
+		writeInitDiscard = samplesToWait;
+	}
+	cout << "------ Recording starting ------" << endl;
+	microphoneArray.SetGain(3);
+	microphoneArray.Read();
+	while (recording) {
+		int32_t step = 0;
+		bool bufferFull = false;
+
+		//fill the first partial buffer
+		for (int32_t s = writeInitDiscard; s < 128; s++) {
+			for (int32_t c = 0; c < STREAMING_CHANNELS; c++) {
+				buffer[buffer_switch][step][c] = microphoneArray.At(s, c);
+			}
+			step++;
+		}
+
+		while (!bufferFull) {
+			int32_t s = 0;
+
+			microphoneArray.Read(); //The reading process is a blocking process that read in 8*128 samples every 8ms
+
+			for (s = 0; s < 128; s++) {
+				for (int32_t c = 0; c < STREAMING_CHANNELS; c++) {
+					buffer[buffer_switch][step][c] = microphoneArray.At(s, c);
+				}
+				step++;
+				if (step == BUFFER_SAMPLES_PER_CHANNEL) {
+					bufferFull = true;
+					break;
+				}
+			}
+		}
+		pthread_mutex_lock(&bufferMutex[(buffer_switch + 1) % 2]);
+		pthread_mutex_unlock(&bufferMutex[buffer_switch]);
+		buffer_switch = (buffer_switch + 1) % 2;
+	}
+
+	pthread_mutex_unlock(&bufferMutex[buffer_switch]);
+	pthread_join(workerThread, NULL);
+	cout << "------ Recording ended ------" << endl;
+	pthread_exit(NULL);
+}
+void *record2Disk(void* null) {
+	
+
+	
+	
 	int mic;
 
 	mics.CalculateDelays(0, 0, 1000, 320 * 1000);
