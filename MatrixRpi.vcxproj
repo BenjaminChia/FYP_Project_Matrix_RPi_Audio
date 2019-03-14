@@ -92,11 +92,11 @@
     <IncludePath>$(MSBuildProjectDirectory)\include;$(IncludePath);$(ISenseIncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath);$(MSBuildProjectDirectory)\matrix;</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
-    <RemoteLdToolExe>g++ -lgflags -lfftw3f -lpthread</RemoteLdToolExe>
+    <RemoteLdToolExe>g++;-lgrpc++;-lprotobuf</RemoteLdToolExe>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
-      <LibraryDependencies>wiringPi;socket++;rt</LibraryDependencies>
+      <LibraryDependencies>pthread;socket++;rt;</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
       <Command>

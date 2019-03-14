@@ -3,13 +3,13 @@
   Copying sources remotely to '192.168.1.224'
   Starting remote build
   Compiling sources:
-  main.cpp
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(397,10): warning : unused variable ‘buffer_switch’ [-Wunused-variable]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(398,10): warning : unused variable ‘writeInitDiscard’ [-Wunused-variable]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(489,45): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘google::int32 {aka int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(615,39): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(617,51): warning : conversion to ‘int16_t {aka short int}’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(512,7): warning : unused variable ‘command’ [-Wunused-variable]
-C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\main\main.cpp(518,11): warning : unused variable ‘bufferSwitch’ [-Wunused-variable]
   Linking objects
-  MatrixRpi.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\BenProject\MatrixRpi\bin\ARM\Debug\MatrixRpi.out
+  g++: fatal error: no input files
+  compilation terminated.
+  bash: -lgrpc++: command not found
+  bash: -lprotobuf: command not found
+  
+g++ : error : no input files
+bash : error : command not found
+bash : error : command not found
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Application Type\Linux\1.0\Linux.targets(264,5): error : Could not find the specified C/C++ linker program 'g++;-lgrpc++;-lprotobuf'. Please make sure that a default C/C++ compiler is installed on the remote system '1985510261;192.168.1.224 (username=, port=22, authentication=Password)'. You can install a compiler using your system's package manager. If overriding the default linker program, please check that it is installed in the specified path.
