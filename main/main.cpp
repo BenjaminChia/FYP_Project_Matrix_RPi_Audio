@@ -244,4 +244,4 @@
 	file.seekp(0);
 	cout << &header << "<header | size of > "<< sizeof(WaveHeader) << endl ;
 	file.write((const char*)&header, sizeof(WaveHeader));
-	file.close();	for (hal::LedValue &led : image1d.leds) {		led.blue = 0;	}	everloop.Write(&image1d);	cout << "------ Recording ended ------" << endl;	cout << recording << endl;	pthread_exit(NULL);		} 					
+	file.close();	for (hal::LedValue &led : image1d.leds) {		led.blue = 0;	}	everloop.Write(&image1d);	cout << "------ Recording ended ------" << endl;	cout << recording << endl;	pthread_exit(NULL);		} 
